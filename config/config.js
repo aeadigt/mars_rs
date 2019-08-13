@@ -52,7 +52,7 @@
             "expires": 60,
             "user": "USER",
             "password": "PASSWORD",
-            "disable": 0
+            "disable": 1
         }
     },
     "b24accounts": {
