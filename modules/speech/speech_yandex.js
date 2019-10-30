@@ -9,8 +9,7 @@ bus.on('ttsLaunch', function (data) {
         var obj = {
             text: data.text,
             format: 'wav',
-            file: data.file,
-            key: data.key
+            file: data.file
         };
         if (data.voice) obj.speaker = data.voice; 
         yandex_speech(obj, data.cb);
