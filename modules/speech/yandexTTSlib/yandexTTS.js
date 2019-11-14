@@ -3,13 +3,12 @@
 */
 
 var YandexTTS = function(options, callback){
-
     var request = require('request');
     var qs = require('querystring');
     var fs = require('fs');
     var path = require('path');
 
-    var yandex_tts_url = 'https://speech.kloud.one/tts?';    
+    var yandex_tts_url = 'https://speech.kloud.one/tts?';
     
     var params = {};
 
@@ -32,7 +31,6 @@ var YandexTTS = function(options, callback){
     var full_url = yandex_tts_url + qs.stringify(params);    
 
     var download = function(callback){
-
         var file = fs.createWriteStream(file_download_path);
         file.on('finish', function(){
             file.close(callback);

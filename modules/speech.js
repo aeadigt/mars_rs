@@ -6,8 +6,11 @@ var bus = require('../lib/system/bus'),
 
 function wavEncode(data, file_name, cb) {
     bus.emit('message', {category: 'call', sessionID: data.sessionID, type: 'debug', msg: 'Start encode file "' + file_name + '"'});
+    var stats = fs.statSync(file_name)
+    if (stats.size < 100) return fs.unlink(file_name, cb);
+    
     var spawn = require('child_process').spawn,
-            args = [file_name, '--bits', 8, '--rate', 8000, '--channels', 1, '--encoding', audioCodec === 'PCMA' ? 'a-law' : 'u-law', '--type', 'wav', file_name.slice(0, -4)],
+            args = ['-b', 16, '-r', 8000, '-c', 1, '-t', 'raw', '-L','-e', 'signed-integer', file_name, '-e', 'u-law', file_name.slice(0, -4)],
             sox = spawn('sox', args);
 
     sox.on('error', function (e) {
