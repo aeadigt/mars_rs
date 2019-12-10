@@ -64,6 +64,8 @@ function getTreeNode(data, id) {
 ;
 
 exports.read = function (req, res) {
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller tasks.js exports.read req.body ' + JSON.stringify(req.body) + ' req.params[id] ' + req.params['id'] + ' id.split(":") ' + id.split(":") });
+
     var params = req.body;
     var id = req.params['id'];
 
@@ -77,17 +79,20 @@ exports.read = function (req, res) {
 
 var fs = require('fs');
 exports.create = function (req, res) {
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller tasks.js exports.create req.body ' + JSON.stringify(req.body) + ' req.body[name] ' + req.body['name'] + ' req.params[id] ' + req.params['id'] + ' id.split(":") ' + id.split(":") });
     if (!req.body['name']) {
         res.end(JSON.stringify({success: false}));
         return;
     }
     var path = './tasks/' + req.body['name'] + '.js';
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller tasks.js exports.create path ' + path });
     if (fs.existsSync(path)) {
         res.end(JSON.stringify({success: false, message: lang.fileExist}));
         return;
-    }
-    ;
+    };
+
     //console.log(path);
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller tasks.js exports.create fs.writeFile path ' + path + ' exports.src = ' + JSON.stringify({}) });
     fs.writeFile(path, "exports.src = " + JSON.stringify({}), function (err) {
         var result = {success: !err};
         if (err)

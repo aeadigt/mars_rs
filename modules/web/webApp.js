@@ -82,6 +82,7 @@ try {
 }
 
 app.get('*', function(req, res, next) {
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http request req.params' + JSON.stringify(req.params) + ' req.body ' + JSON.stringify(req.body) });
     if (bus.config.get("webAuth") === "disable")
         return next();
     else

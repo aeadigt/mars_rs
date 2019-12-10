@@ -23,6 +23,7 @@ exports.init = function(_bus) {
 var fs = require('fs');
 
 exports.read = function(req, res) {
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller resource.js read ' + JSON.stringify(req.params)});
     var id = req.params['id'];
     if (!id) {
         res.send({ success: false, msg: 'Parameter "id" not found' });
@@ -36,11 +37,13 @@ exports.read = function(req, res) {
                 data.push({ id: data.length, text: el.text.replace('.js', ''), value: el.value });
             });
         }
+        bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller resource.js read res.send data ' + JSON.stringify(data)});
         res.send({ success: true, data: data });
     });
 };
 
 exports.rename = function(req, res) {
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller resource.js rename ' + JSON.stringify(req.body)});
     //consol.log(req.params['id']);
     var oldPath = './' + req.body['oldPath'] + '.js';
     var newPath = './' + req.body['newPath'] + '.js';
@@ -66,6 +69,7 @@ exports.rename = function(req, res) {
 };
 
 exports.update = function(req, res) {
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller resource.js update ' + JSON.stringify(req.body) });
     if (!req.body['name']) {
         res.end(JSON.stringify({ success: false }));
         return;
@@ -79,6 +83,7 @@ exports.update = function(req, res) {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
     }
+
     fs.writeFile(path, req.body['value'], function(err) {
         if (!err) {
             bus.emit('refresh', req.body['name'].replace(/\/(.*)$/, ''));
@@ -97,6 +102,7 @@ exports.update = function(req, res) {
 };
 
 exports.delete = function(req, res) {
+    bus.emit('message', { category: 'http', type: 'error', msg: 'Http controller resource.js delete ' + JSON.stringify(req.body)});
     var path = './' + req.body['path'] + '.js';
 
     //console.log(path);
