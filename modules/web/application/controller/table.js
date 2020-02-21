@@ -23,7 +23,7 @@ exports.read = function (req, res) {
         req.query = JSON.parse(req.query.config);
         req.query.exportToExcel = true;
     }
-    bus.request(tableName + 'Data', {query: req.query, requestTimeout: 20000}, function (err, data) {
+    bus.request(tableName + 'Data', {query: req.query, requestTimeout: 20000}, function (err, data) { 
         //console.timeEnd('tableData');
         if (req.query.exportToExcel) {
             var conf = {};
